@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://dcgbpq82upcm8"]
+
+[ext_resource type="PackedScene" uid="uid://h7r6ed0ljdvi" path="res://Objects/player.tscn" id="1_3hls8"]
+[ext_resource type="Script" uid="uid://cmwyfi2jpr63q" path="res://level_1.gd" id="1_ihfcg"]
+[ext_resource type="PackedScene" uid="uid://cxu5arjbae5cf" path="res://Objects/ball.tscn" id="2_hbghi"]
+[ext_resource type="Texture2D" uid="uid://bom173kpe82sp" path="res://Assets/Board.png" id="2_rka8t"]
+[ext_resource type="PackedScene" uid="uid://c4h7cq0ec3f1u" path="res://Objects/cpu.tscn" id="3_hn12h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rg3ch"]
+size = Vector2(77.5, 663)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjfug"]
+size = Vector2(127, 649)
+
+[node name="Level 1" type="Node2D" unique_id=987234132]
+script = ExtResource("1_ihfcg")
+
+[node name="Board" type="Sprite2D" parent="." unique_id=1946916689]
+position = Vector2(570.00006, 330)
+scale = Vector2(1.4551122, 1.4450549)
+texture = ExtResource("2_rka8t")
+
+[node name="Player" parent="." unique_id=1480182120 instance=ExtResource("1_3hls8")]
+position = Vector2(1000, 350)
+speed = 250.0
+
+[node name="Ball" parent="." unique_id=1983417156 instance=ExtResource("2_hbghi")]
+position = Vector2(600, 300)
+
+[node name="cpu" parent="." unique_id=1641607548 node_paths=PackedStringArray("ball") instance=ExtResource("3_hn12h")]
+position = Vector2(100, 350)
+ball = NodePath("../Ball")
+speed = 250.0
+
+[node name="Goal Player" type="Area2D" parent="." unique_id=119964865]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goal Player" unique_id=143473114]
+position = Vector2(-5.75, 330)
+shape = SubResource("RectangleShape2D_rg3ch")
+debug_color = Color(0.9015661, 0.2737073, 0.38569045, 0.41960785)
+
+[node name="Goal CPU" type="Area2D" parent="." unique_id=1481793425]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goal CPU" unique_id=734127887]
+position = Vector2(1165, 334)
+shape = SubResource("RectangleShape2D_sjfug")
+
+[node name="CPU Score" type="Label" parent="." unique_id=705082270]
+offset_left = 52.0
+offset_top = 19.0
+offset_right = 288.0
+offset_bottom = 149.0
+text = "CPU Score: 0 "
+
+[node name="Player Score" type="Label" parent="." unique_id=1870186541]
+offset_left = 971.0
+offset_top = 11.0
+offset_right = 1140.0
+offset_bottom = 79.0
+text = "Player Score: 0"
+
+[connection signal="goal_cpu" from="Ball" to="." method="_on_ball_goal_cpu"]
+[connection signal="goal_player" from="Ball" to="." method="_on_ball_goal_player"]
